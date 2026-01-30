@@ -42,10 +42,6 @@ public sealed class HarvestDoAfterCancelled : EntityEventArgs
 {
 }
 
-public sealed partial class RevenantShopActionEvent : InstantActionEvent
-{
-}
-
 public sealed partial class RevenantHauntActionEvent : InstantActionEvent // Imp
 {
 }
@@ -104,7 +100,7 @@ public enum RevenantVisuals : byte
 }
 
 [NetSerializable, Serializable]
-public enum RevenantVisualLayers : byte
+public enum RevenantVisualLayers : byte // DeltaV - kept for impstation rev compatibility
 {
     Digit1,
     Digit2,

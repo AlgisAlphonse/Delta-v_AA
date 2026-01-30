@@ -14,6 +14,7 @@
     ClothingHandsGlovesLatex: 2
     ClothingHeadsetMedical: 2
     ClothingOuterWinterChem: 2
+    ClothingEyesGlassesChemical: 2
     # Begin DeltaV Additions - Personal Protective Equipment
     ClothingUniformJumpsuitChemShirt: 2 # New chemist jumpsuit, formal variant
     ClothingUniformJumpskirtChemShirt: 2 # DeltaV - more jumpskirts
@@ -23,6 +24,7 @@
     ClothingOuterExplorerCoat: 2 # Really nice labcoat
     ClothingEyesGlassesChemist: 2 # Safety glasses
     ClothingHandsGlovesChemist: 2 # Heavy duty chemistry gloves
+    ClothingShoesBootsWinterChem: 2 # Add departmental winter boots
     # End DeltaV Additions
   contrabandInventory:
     ToyFigurineChemist: 1

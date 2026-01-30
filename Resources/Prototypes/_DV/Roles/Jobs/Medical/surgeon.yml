@@ -6,7 +6,7 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 28800
+      time: 8h
   startingGear: SurgeonGear
   icon: JobIconSurgeon
   supervisors: job-supervisors-cmo
@@ -14,11 +14,6 @@
   - Medical
   - Surgery
   - Maintenance
-  special:
-  - !type:AddComponentSpecial
-    components:
-    - type: SurgerySpeedModifier
-      speedModifier: 1.25
 
 - type: startingGear
   id: SurgeonGear

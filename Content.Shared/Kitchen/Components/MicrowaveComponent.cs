@@ -9,7 +9,6 @@ using Robust.Shared.Serialization; // Frontier
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Frontier
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-
 namespace Content.Shared.Kitchen.Components
 {
     [RegisterComponent]

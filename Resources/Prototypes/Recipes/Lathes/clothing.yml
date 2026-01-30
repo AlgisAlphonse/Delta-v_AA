@@ -223,6 +223,11 @@
   id: ClothingUniformJumpsuitClown
   result: ClothingUniformJumpsuitClown
 
+- type: latheRecipe
+  parent: BaseJumpsuitRecipe
+  id: ClothingUniformJumpskirtClown
+  result: ClothingUniformJumpskirtClown
+
 ## CMO
 
 - type: latheRecipe
@@ -385,6 +390,11 @@
   parent: BaseJumpsuitRecipe
   id: ClothingUniformJumpsuitLawyerBlack
   result: ClothingUniformJumpsuitLawyerBlack
+
+- type: latheRecipe
+  parent: BaseJumpsuitRecipe
+  id: ClothingUniformJumpskirtLawyerBlack
+  result: ClothingUniformJumpskirtLawyerBlack
 
 ## Librarian
 
@@ -789,11 +799,21 @@
   parent: BaseCommandHatRecipe
   id: ClothingHeadHatBeretHoS
   result: ClothingHeadHatBeretHoS
+  # Begin DeltaV additions
+  materials:
+    Cloth: 100
+    Durathread: 200
+  # End DeltaV additions
 
 - type: latheRecipe
   parent: BaseCommandHatRecipe
   id: ClothingHeadHatHoshat
   result: ClothingHeadHatHoshat
+  # Begin DeltaV additions
+  materials:
+    Cloth: 100
+    Durathread: 200
+  # End DeltaV additions
 
 - type: latheRecipe
   parent: BaseCommandHatRecipe
@@ -810,6 +830,11 @@
   id: ClothingHeadHatHopcap
   result: ClothingHeadHatHopcap
 
+- type: latheRecipe
+  parent: BaseCommandHatRecipe
+  id: ClothingHeadHatBeretHop
+  result: ClothingHeadHatBeretHop
+  
 - type: latheRecipe
   parent: BaseCommandHatRecipe
   id: ClothingHeadHatQMsoft

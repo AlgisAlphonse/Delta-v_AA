@@ -74,6 +74,11 @@
     radius: 6
     castShadows: false
     enabled: false
+  - type: UserInterface
+    interfaces:
+      enum.RevivalContractUiKey.Key: # Goobstation - Devil
+        type: RevivalContractBoundUserInterface
+        requireInputValidation: false
 
 # proto for player ghosts specifically
 - type: entity
@@ -82,8 +87,19 @@
   components:
   - type: Spectral
   - type: Tag
-    tags:
+    tags: # BAD: Intentional removal of inherited tag
     - AllowGhostShownByEvent
+  - type: RadarConsole # DeltaV
+    maxRange: 256
+    followEntity: true
+  - type: UserInterface
+    interfaces:
+      enum.RadarConsoleUiKey.Key:
+        type: RadarConsoleBoundUserInterface
+  - type: IntrinsicUI
+    uis:
+      enum.RadarConsoleUiKey.Key:
+        toggleAction: ActionToggleMassScanner
 
 - type: entity
   parent: BaseMentalAction

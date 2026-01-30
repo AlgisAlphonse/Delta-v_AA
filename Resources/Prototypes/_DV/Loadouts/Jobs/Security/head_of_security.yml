@@ -35,6 +35,16 @@
   equipment:
     outerClothing: ClothingOuterCoatStasecHoS
 
+- type: loadout
+  id: HeadOfSecurityTrenchcoat
+  equipment:
+    outerClothing: ClothingOuterCoatHoSTrench
+
+- type: loadout
+  id: HeadofSecurityLongcoat
+  equipment:
+    outerClothing: ClothingLongcoatHoS
+
 # Shoes
 - type: loadout
   id: HeadOfSecurityWinterBoots

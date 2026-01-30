@@ -33,6 +33,7 @@ namespace Content.Client.Actions
         [Dependency] private readonly IPrototypeManager _proto = default!;
         [Dependency] private readonly IResourceManager _resources = default!;
         [Dependency] private readonly MetaDataSystem _metaData = default!;
+        [Dependency] private readonly ISerializationManager _serialization = default!;
 
         public event Action<EntityUid>? OnActionAdded;
         public event Action<EntityUid>? OnActionRemoved;
@@ -211,7 +212,7 @@ namespace Content.Client.Actions
             else
             {
                 var request = new RequestPerformActionEvent(GetNetEntity(action));
-                EntityManager.RaisePredictiveEvent(request);
+                RaisePredictiveEvent(request);
             }
         }
 
@@ -287,8 +288,27 @@ namespace Content.Client.Actions
                     continue;
                 }
 
+                if (assignmentNode is SequenceDataNode sequenceAssignments)
+                {
+                    try
+                    {
+                        var nodeAssignments = _serialization.Read<List<(byte Hotbar, byte Slot)>>(sequenceAssignments, notNullableOverride: true);
+
+                        foreach (var index in nodeAssignments)
+                        {
+                            assignments.Add(new SlotAssignment(index.Hotbar, index.Slot, actionId));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Failed to parse action assignments: {ex}");
+                    }
+                }
+
                 AddActionDirect((user, actions), actionId);
             }
+
+            AssignSlot?.Invoke(assignments);
         }
 
         // DeltaV - begin changes
@@ -401,10 +421,10 @@ namespace Content.Client.Actions
             // this is the actual entity-world targeting magic
             EntityUid? targetEnt = null;
             if (TryComp<EntityTargetActionComponent>(ent, out var entity) &&
-                args.Input.EntityUid != null &&
-                ValidateEntityTarget(user, args.Input.EntityUid, (uid, entity)))
+                args.Input.EntityUid is { Valid: true } entityUid &&
+                ValidateEntityTarget(user, entityUid, (uid, entity)))
             {
-                targetEnt = args.Input.EntityUid;
+                targetEnt = entityUid;
             }
 
             if (action.ClientExclusive)
@@ -426,7 +446,12 @@ namespace Content.Client.Actions
 
         private void OnEntityTargetAttempt(Entity<EntityTargetActionComponent> ent, ref ActionTargetAttemptEvent args)
         {
-            if (args.Handled || args.Input.EntityUid is not { Valid: true } entity)
+            if (args.Handled)
+                return;
+
+            args.Handled = true;
+
+            if (args.Input.EntityUid is not { Valid: true } entity)
                 return;
 
             // let world target component handle it
@@ -436,8 +461,6 @@ namespace Content.Client.Actions
                 DebugTools.Assert(HasComp<WorldTargetActionComponent>(ent), $"Action {ToPrettyString(ent)} requires WorldTargetActionComponent for entity-world targeting");
                 return;
             }
-
-            args.Handled = true;
 
             var action = args.Action;
             var user = args.User;

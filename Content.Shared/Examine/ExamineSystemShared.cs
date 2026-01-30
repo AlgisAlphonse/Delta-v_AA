@@ -39,7 +39,7 @@ namespace Content.Shared.Examine
         public const float DeadExamineRange = 0.75f;
 
         public const float ExamineRange = 16f;
-        protected const float ExamineDetailsRange = 3f;
+        protected const float ExamineDetailsRange = ExamineRange; // DeltaV - increase examine range
 
         protected const float ExamineBlurrinessMult = 2.5f;
 
@@ -111,7 +111,7 @@ namespace Content.Shared.Examine
             if (!examinerComp.CheckInRangeUnOccluded)
                 return true;
 
-            if (EntityManager.GetComponent<TransformComponent>(examiner).MapID != target.MapId)
+            if (Comp<TransformComponent>(examiner).MapID != target.MapId)
                 return false;
 
             // Do target InRangeUnoccluded which has different checks.

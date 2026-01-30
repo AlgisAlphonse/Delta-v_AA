@@ -12,9 +12,11 @@ using Content.Shared.Mind;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
 using Content.Shared.Mobs.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Content.Shared._DV.Abilities.Psionics;
 
 namespace Content.Server.Abilities.Psionics
 {
@@ -138,15 +140,20 @@ namespace Content.Server.Abilities.Psionics
             if (args.Handled)
                 return;
 
-            if (!HasComp<MindSwappedComponent>(args.Mind.CurrentEntity))
-                return;
-
             //No idea where the viaCommand went. It's on the internal OnGhostAttempt, but not this layer. Maybe unnecessary.
             /*if (!args.viaCommand)
                 return;*/
 
-            args.Result = false;
-            args.Handled = true;
+            // DeltaV - start of trapped ghost fix
+            // If you're able to swap back to your original body, you should swap back before you ghost.
+            if (TryComp<MindSwappedComponent>(args.Mind.CurrentEntity, out var component)
+                && _actions.GetAction(component.MindSwapReturnActionEntity) is { } action
+                && action.Comp.AttachedEntity is not null)
+            {
+                args.Result = false;
+                args.Handled = true;
+            }
+            // DeltaV - end of trapped ghost fix
         }
 
         private void OnSwapInit(EntityUid uid, MindSwappedComponent component, ComponentInit args)
@@ -162,7 +169,7 @@ namespace Content.Server.Abilities.Psionics
                 psionic.PsionicAbility = component.MindSwapReturnActionEntity;
         }
 
-        public void Swap(EntityUid performer, EntityUid target, bool end = false)
+        public void Swap(EntityUid performer, EntityUid target, bool end = false, int ReturnSwapCooldown = 0)
         {
             if (end && (!HasComp<MindSwappedComponent>(performer) || !HasComp<MindSwappedComponent>(target)))
                 return;
@@ -203,6 +210,15 @@ namespace Content.Server.Abilities.Psionics
 
             var perfComp = EnsureComp<MindSwappedComponent>(performer);
             var targetComp = EnsureComp<MindSwappedComponent>(target);
+
+            // Delta V - Cooldown for Returning back
+            if (ReturnSwapCooldown > 0)
+            {
+                var cooldown = TimeSpan.FromSeconds(ReturnSwapCooldown);
+                _actions.SetCooldown(perfComp.MindSwapReturnActionEntity, cooldown);
+                _actions.SetCooldown(targetComp.MindSwapReturnActionEntity, cooldown);
+            }
+            // Delta V
 
             perfComp.OriginalEntity = target;
             targetComp.OriginalEntity = performer;

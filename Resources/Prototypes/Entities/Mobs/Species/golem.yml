@@ -93,7 +93,7 @@
 #     - reagents: [Water, SpaceCleaner]
 #       methods: [Touch]
 #       effects:
-#       - !type:WashCreamPieReaction
+#       - !type:WashCreamPie
 #   - type: Flashable
 #   - type: Polymorphable
 #   - type: Identity
@@ -254,8 +254,8 @@
 #         toggleAction:
 #           name: action-name-show-laws
 #           description: action-description-show-laws
-#           icon: Structures/Wallmounts/posters.rsi/poster11_legit.png #someone wanna make new icons?
-#           iconOn: Structures/Wallmounts/posters.rsi/poster11_legit.png
+#           icon: { sprite: Structures/Wallmounts/posters.rsi, state: poster11_legit } #someone wanna make new icons?
+#           iconOn: { sprite: Structures/Wallmounts/posters.rsi, state: poster11_legit }
 #           keywords: [ "AI", "console", "interface", "laws", "borg" ]
 #           priority: -3
 #           event: !type:ToggleIntrinsicUIEvent
@@ -377,7 +377,7 @@
 #     - reagents: [Water, SpaceCleaner]
 #       methods: [Touch]
 #       effects:
-#       - !type:WashCreamPieReaction
+#       - !type:WashCreamPie
 #   - type: Construction
 #     graph: GolemWood
 #     node: golem

@@ -197749,7 +197749,7 @@ entities:
           showEnts: False
           occludes: True
           ent: null
-- proto: LockerQuarterMasterFilled
+- proto: LockerQuarterMasterFilledHardsuit
   entities:
   - uid: 13174
     components:

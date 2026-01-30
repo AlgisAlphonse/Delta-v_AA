@@ -14,8 +14,11 @@
     - id: GlimmerRandomSentience
     - id: GlimmerRandomAnimation
     - id: ThavenMoodUpset
-    - id: LockProbers
+    #- id: LockProbers
     - id: PsionicNosebleedEvent
+    - id: MinorMassMindSwap # Delta V
+    - id: GlimmerFoxfireSpawn
+    - id: GlimmerRestyle
 
 - type: entity
   parent: BaseGameRule
@@ -89,6 +92,17 @@
   - type: MassMindSwapRule
 
 - type: entity
+  id: MinorMassMindSwap
+  parent: BaseGlimmerEvent
+  components:
+  - type: GlimmerEvent
+    minimumGlimmer: 750
+    glimmerBurnLower: 40
+    glimmerBurnUpper: 80
+  - type: MinorMassMindSwapRule
+    isTemporary: true
+
+- type: entity
   abstract: true
   parent: BaseGlimmerEvent
   id: BaseGlimmerSignaturesEvent
@@ -144,7 +158,7 @@
     duration: 1
     reoccurrenceDelay: 20
     startAudio:
-      path: /Audio/Announcements/attention.ogg
+      path: /Audio/_DV/Announcements/attention.ogg
   - type: GlimmerEvent
     minimumGlimmer: 300
     maximumGlimmer: 600
@@ -170,13 +184,13 @@
     glimmerBurnUpper: 70
   - type: ThavenMoodUpsetRule
 
-- type: entity
-  parent: BaseGlimmerEvent
-  id: LockProbers
-  components:
-  - type: GlimmerEvent
-    minimumGlimmer: 500
-  - type: LockProbersRule
+#- type: entity
+#  parent: BaseGlimmerEvent
+#  id: LockProbers
+#  components:
+#  - type: GlimmerEvent
+#    minimumGlimmer: 500
+#  - type: LockProbersRule
 
 - type: entity
   parent: BaseGlimmerEvent
@@ -185,3 +199,37 @@
   - type: GlimmerEvent
     minimumGlimmer: 350
   - type: PsionicNosebleedRule
+
+- type: entity
+  parent: BaseGlimmerEvent
+  id: GlimmerFoxfireSpawn
+  components:
+  - type: GlimmerEvent
+    minimumGlimmer: 100
+    maximumGlimmer: 500
+  - type: GlimmerFoxfireSpawnRule
+    randomColorList:
+    - aqua
+    - betterviolet
+    - blue
+    - chartreuse
+    - cyan
+    - deeppink
+    - fuchsia
+    - green
+    - indigo
+    - lime
+    - pink
+    - red
+    - silver
+    - yellow
+
+
+- type: entity
+  id: GlimmerRestyle
+  parent: BaseGlimmerSignaturesEvent
+  components:
+  - type: GlimmerEvent
+    minimumGlimmer: 300
+    maximumGlimmer: 700
+  - type: GlimmerRestyleRule

@@ -33,7 +33,10 @@
       - id: FoodMeatPlant
         amount: 5
   - type: Bloodstream
-    bloodReagent: Sap
+    bloodReagents:
+      reagents:
+      - ReagentId: Sap
+        Quantity: 1
   - type: Reactive
     groups:
       Flammable: [ Touch ]
@@ -43,17 +46,16 @@
     - reagents: [Water, SpaceCleaner]
       methods: [Touch]
       effects:
-      - !type:WashCreamPieReaction
+      - !type:WashCreamPie
     - reagents: [ PlantBGone ]
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         damage:
           types:
-            Blunt: 0.1
-            Slash: 0.1
-            Piercing: 0.15
+            Blunt: 0.05
+            Slash: 0.05
+            Piercing: 0.075
       - !type:PopupMessage
         type: Local
         visualType: Large
@@ -63,10 +65,9 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         damage:
           types:
-            Poison: 0.25
+            Poison: 0.125
       - !type:PopupMessage
         type: Local
         visualType: Large
@@ -120,6 +121,21 @@
     baseSprintSpeed: 3.0
   - type: FTLKnockdownImmune # Frontier
   - type: Rootable
+  - type: LightReactive # DeltaV
+    manual: true
+  - type: LightLevelHealth # DeltaV
+    darkThreshold: 0.4
+    lightThreshold: 1.2
+    darkDamage:
+      types:
+        Heat: 1.0
+    lightDamage:
+      groups:
+        Brute: -0.1
+        Burn: -0.1
+        Toxin: -0.1
+        Airloss: -0.1
+    darkMovementSpeedMultiplier: 0.7
 
 - type: entity
   parent: BaseSpeciesDummy

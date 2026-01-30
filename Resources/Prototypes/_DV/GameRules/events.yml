@@ -15,6 +15,7 @@
     - id: RoboNeuroticist
     - id: MenaceSkeleton
     - id: SkiaSpawn
+    - id: RatKingSpawn
 
 # Replaces upstream meteor events until they're good
 - type: entity
@@ -28,14 +29,14 @@
     startAnnouncement: station-event-meteor-swarm-start-announcement
     endAnnouncement: station-event-meteor-swarm-end-announcement
     startAudio:
-      path: /Audio/Announcements/meteors.ogg
+      path: /Audio/_DV/Announcements/meteors.ogg
       params:
         volume: -4
     duration: null #ending is handled by MeteorSwarmRule
   - type: PrecognitionResult
     message: psionic-power-precognition-meteor-swarm-result-message
   - type: MeteorSwarmRule
-
+# Xeno Vents
 - type: entity
   parent: BaseGameRule
   id: XenoVents
@@ -43,41 +44,41 @@
   - type: StationEvent
     startAnnouncement: station-event-xeno-vent-start-announcement
     startAudio:
-      path: /Audio/Announcements/aliens.ogg
-    earliestStart: 45
-    minimumPlayers: 20
-    weight: 1
+      path: /Audio/_DV/Announcements/aliens.ogg
+    earliestStart: 25
+    minimumPlayers: 30
+    weight: 2
     duration: 30
   - type: PrecognitionResult
     message: psionic-power-precognition-xeno-vents-result-message
   - type: VentCrittersRule
     table: !type:GroupSelector
       children:
-      - id: MobXeno
-        weight: 0.55
+      - id: MobXenoPlayer
+        weight: 0.20
       - id: MobXenoRouny
         weight: 0.01
       - id: MobXenoDrone
-        weight: 0.25
+        weight: 0.35
       - id: MobXenoSpitter
-        weight: 0.05
+        weight: 0.14
       - id: MobXenoRunner
-        weight: 0.08
+        weight: 0.14
       - id: MobXenoPraetorian
-        weight: 0.03
+        weight: 0.08
       - id: MobXenoRavager
-        weight: 0.02
+        weight: 0.05
       - id: MobXenoQueen
-        weight: 0.01
-
+        weight: 0.03
+# Mothroaches
 - type: entity
   parent: BaseGameRule
   id: MothroachSpawn
   components:
   - type: StationEvent
     earliestStart: 15
-    minimumPlayers: 15
-    weight: 4
+    minimumPlayers: 5
+    weight: 5
     duration: 30
   - type: PrecognitionResult
     message: psionic-power-precognition-mothroach-spawn-result-message
@@ -87,14 +88,14 @@
     playerRatio: 65 # mothroaches aren't dangerous, but don't need as many as mice
     table:
       id: MobMothroach
-
+# Listening Post
 - type: entity
   parent: BaseGameRule
   id: ListeningPost
   components:
   - type: StationEvent
-    earliestStart: 15
-    weight: 5
+    earliestStart: 30
+    weight: 4
     minimumPlayers: 25
     maxOccurrences: 1
     duration: null
@@ -129,9 +130,13 @@
       - type: NpcFactionMember
         factions:
         - Syndicate
+      - type: IntrinsicRadioReceiver
+      - type: ActiveRadio
+        channels:
+        - Binary
       mindRoles:
       - MindRoleListeningPost
-
+# Malign Rifts
 - type: entity
   parent: BaseGameRule
   id: MalignRiftSpawn
@@ -146,6 +151,15 @@
     minAmount: 1
     maxAmount: 3
 
+- type: entity
+  id: Epsilon
+  parent: BaseStationEvent
+  components:
+  - type: StationEvent
+    weight: 0
+    duration: 12
+    maxDuration: 12
+  - type: EpsilonEventRule
 
 # Mid round antag spawns
 - type: entity
@@ -160,13 +174,20 @@
     earliestStart: 25
   - type: MidRoundAntagRule
 
-#- type: entity
-#  parent: BaseMidRoundAntag
-#  id: RatKingSpawn
-#  components:
-#  if you uncomment this update this for antag refactor, below wont work
-#  - type: MidRoundAntagRule
-#    spawner: SpawnPointGhostRatKing
+- type: entity
+  parent: BaseMidRoundAntag
+  id: RatKingSpawn
+  components:
+  - type: StationEvent
+    weight: 5
+    minimumPlayers: 20
+    reoccurrenceDelay: 30
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostRatKing
+      min: 1
+      max: 1
+      pickPlayer: false
 
 - type: entity
   parent: BaseMidRoundAntag
@@ -204,7 +225,7 @@
         sound: /Audio/Effects/clang.ogg
       mindRoles:
       - MindRoleFugitive
-
+# Syndicate RoboNeurotocist
 - type: entity
   parent: BaseGameRule
   id: RoboNeuroticist
@@ -217,7 +238,7 @@
     maxOccurrences: 1
   - type: RuleGrids
   - type: LoadMapRule
-    gridPath: /Maps/_DV/Shuttles/haibu.yml # was roboneuroticist_ship.yml
+    gridPath: /Maps/_DV/Shuttles/Event/haibu.yml # was /Maps/_DV/Shuttles/Admin/roboneuroticist_ship.yml
   - type: AntagSpawner
     prototype: MobHuman
   - type: AntagObjectives
@@ -252,7 +273,7 @@
         - Syndicate
       mindRoles:
       - MindRoleRoboNeuroticist
-
+# Noospheric Storm
 - type: entity
   parent: BaseGameRule
   id: NoosphericStorm
@@ -260,17 +281,17 @@
   - type: StationEvent
     startAnnouncement: station-event-noospheric-storm-announcement
     startAudio:
-      path: /Audio/Announcements/noosphericstorm.ogg
+      path: /Audio/_DV/Announcements/noosphericstorm.ogg
     weight: 5
     earliestStart: 15
   - type: NoosphericStormRule
-
+# Menace Skeleton (Antagonistic)
 - type: entity
   parent: BaseMidRoundAntag
   id:  MenaceSkeleton
   components:
   - type: StationEvent
-    weight: 6
+    weight: 5
     duration: 1
     minimumPlayers: 30
   - type: PrecognitionResult
@@ -301,13 +322,13 @@
         sound: /Audio/Effects/clang.ogg
       mindRoles:
       - MindRoleMenaceSkeleton
-
+# Skia
 - type: entity
   parent: BaseMidRoundAntag
   id: SkiaSpawn
   components:
   - type: StationEvent
-    weight: 6
+    weight: 5
     duration: null
     minimumPlayers: 30
   - type: PrecognitionResult
@@ -331,3 +352,29 @@
           sound: /Audio/_DV/Effects/creepyshriek.ogg
         - type: BreakLightsOnSpawn
           radius: 10
+
+# nt agent (admeme)
+- type: entity
+  parent: BaseGameRule
+  id: NTAgent
+  components:
+  - type: GameRule
+  - type: AntagObjectives
+    objectives:
+    - NTAgentObjective
+  - type: AntagSelection
+    agentName: NTAgent-round-end-name
+    definitions:
+    - min: 1
+      max: 1
+      pickPlayer: true
+      briefing:
+        text: NTAgent-role-greeting-human
+        color: lightblue
+        sound: /Audio/_DV/Ambience/Antag/centcomm_nt_agent.ogg
+      mindRoles:
+      - MindRoleNTAgent
+      components:
+      - type: AutoImplant
+        implants:
+        - RadioImplantCentcomm

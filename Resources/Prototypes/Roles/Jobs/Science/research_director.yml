@@ -7,10 +7,10 @@
   requirements:
   - !type:RoleTimeRequirement
     role: JobScientist
-    time: 18000 #5 hrs
+    time: 5h
   - !type:DepartmentTimeRequirement
-    department: Epistemics # DeltaV - Epistemics replacing Science
-    time: 36000 #10 hrs
+    department: Epistemics # DeltaV
+    time: 10h
   weight: 10
   startingGear: ResearchDirectorGear
   icon: "JobIconResearchDirector"
@@ -29,6 +29,7 @@
   - Chapel # Chaplain is in Epistemics
   - Robotics
   - External # Needed to access the AI satellite
+  - Library # moved librarian to epistemics
   # end DeltaV Additions
   special:
   - !type:AddImplantSpecial

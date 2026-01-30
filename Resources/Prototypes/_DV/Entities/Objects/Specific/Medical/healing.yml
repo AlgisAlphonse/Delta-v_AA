@@ -24,10 +24,11 @@
   components:
   - type: Label
     currentLabel: soretizone 10u
-  - type: StorageFill
-    contents:
-    - id: PillSoretizone
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillSoretizone
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -55,10 +56,11 @@
   components:
   - type: Label
     currentLabel: serenitol 10u
-  - type: StorageFill
-    contents:
-    - id: PillSerenitol
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillSerenitol
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -86,10 +88,11 @@
   components:
   - type: Label
     currentLabel: neurozenium 10u
-  - type: StorageFill
-    contents:
-    - id: PillNeurozenium
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillNeurozenium
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -117,10 +120,11 @@
   components:
   - type: Label
     currentLabel: equilibrazine 5u
-  - type: StorageFill
-    contents:
-    - id: PillEquilibrazine
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillEquilibrazine
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -148,10 +152,11 @@
   components:
   - type: Label
     currentLabel: blissifylovene 5u
-  - type: StorageFill
-    contents:
-    - id: PillBlissifylovene
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillBlissifylovene
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -179,10 +184,11 @@
   components:
   - type: Label
     currentLabel: calmafluxine 10u
-  - type: StorageFill
-    contents:
-    - id: PillCalmafluxine
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillCalmafluxine
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -210,10 +216,11 @@
   components:
   - type: Label
     currentLabel: tranquinase 10u
-  - type: StorageFill
-    contents:
-    - id: PillTranquinase
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillTranquinase
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -241,10 +248,11 @@
   components:
   - type: Label
     currentLabel: stubantazine 10u
-  - type: StorageFill
-    contents:
-    - id: PillStubantazine
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillStubantazine
+        amount: 5
 
 - type: entity
   parent: Pill
@@ -272,10 +280,11 @@
   components:
   - type: Label
     currentLabel: agonolexyne 5u
-  - type: StorageFill
-    contents:
-    - id: PillAgonolexyne
-      amount: 5
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillAgonolexyne
+        amount: 5
 
 - type: entity
   parent: BaseHealingItem
@@ -296,7 +305,7 @@
     damage:
       groups:
         Burn: 0 # funny cant remove
-    ModifyBloodLevel: 20 # restores a lot of blood for IPCs.
+    # ModifyBloodLevel: 20 # restores a lot of blood for IPCs. TODO: Fix this lol
   - type: Stack
     stackType: Oilpack
     count: 5
@@ -343,3 +352,46 @@
   components:
   - type: Stack
     count: 1
+
+- type: entity
+  parent: PurifyingSalts
+  id: PurifyingSalts1
+  suffix: Single
+  components:
+  - type: Stack
+    count: 1
+
+- type: entity
+  name: purifying salts
+  description: A canister of purifying salts for cleansing the body of metaphysical injuries
+  parent: BaseHealingItem
+  id: PurifyingSalts
+  suffix: Full
+  components:
+  - type: Sprite
+    sprite: _DV/Objects/Medical/purifyingsalts.rsi
+    state: icon
+  - type: Item
+    sprite: _DV/Objects/Medical/purifyingsalts.rsi
+  - type: Healing
+    damageContainers:
+    - Biological
+    - BiologicalMetaphysical
+    damage:
+      groups:
+        Metaphysical: -10
+    healingBeginSound:
+      path: "/Audio/Items/Medical/brutepack_begin.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+    healingEndSound:
+      path: "/Audio/Items/Medical/brutepack_end.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+  - type: Stack
+    stackType: PurifyingSalts
+    count: 10
+  - type: StackPrice
+    price: 5

@@ -7,6 +7,7 @@ job-name-lawyer = Attorney
 job-name-courier = Courier
 job-name-cargo-assistant = Cargo Assistant
 job-name-security-borg = Security Cyborg
+job-name-librarian = Archivist
 # Used by the Agent ID
 job-name-senior-physician = Physician Mentor
 job-name-senior-researcher = Research Mentor
@@ -76,3 +77,18 @@ JobProsecutor = Prosecutor
 JobSecurityBorg = Security Cyborg
 JobRoboticist = Roboticist
 JobCargoAssistant = Cargo Assistant
+
+# Pet Roles
+RoleLaika = Laika
+RoleSilvia = Silvia
+RoleIfrit = Ifrit
+RoleCarpy = Carpy
+RoleShiva = Shiva
+RolePunPun = Pun Pun
+
+role-name-laika = Laika
+role-name-silvia = Silvia
+role-name-ifrit = Ifrit
+role-name-carpy = Carpy
+role-name-shiva = Shiva
+role-name-pun-pun = Pun Pun

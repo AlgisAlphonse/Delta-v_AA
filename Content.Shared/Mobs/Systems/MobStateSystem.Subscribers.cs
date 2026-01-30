@@ -3,6 +3,7 @@ using Content.Shared.Buckle.Components;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Damage;
 using Content.Shared.Damage.ForceSay;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Emoting;
 using Content.Shared.Hands;
 using Content.Shared.Interaction;
@@ -77,11 +78,11 @@ public partial class MobStateSystem
                 //unused
                 break;
             case MobState.Critical:
-                _standing.Stand(target);
+                //_standing.Stand(target); // DeltaV - Remove Redundancy
                 break;
             case MobState.Dead:
                 RemComp<CollisionWakeComponent>(target);
-                _standing.Stand(target);
+                //_standing.Stand(target); // DeltaV - Remove Redundancy
                 break;
             case MobState.Invalid:
                 //unused
@@ -102,7 +103,9 @@ public partial class MobStateSystem
         switch (state)
         {
             case MobState.Alive:
-                _standing.Stand(target);
+                if (!TryComp(target, out BuckleComponent? buckle)
+                    || !buckle.Buckled) // DeltaV - Stop buckled mobs from standing up.
+                    _standing.Stand(target);
                 _appearance.SetData(target, MobStateVisuals.State, MobState.Alive);
                 break;
             case MobState.Critical:

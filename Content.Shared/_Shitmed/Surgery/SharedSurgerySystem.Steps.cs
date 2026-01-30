@@ -9,6 +9,8 @@ using Content.Shared._Shitmed.Body.Events;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.DoAfter;
 using Content.Shared.IdentityManagement;
@@ -26,6 +28,7 @@ using Content.Shared.Popups;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Toolshed.TypeParsers;
 using System.Linq;
+using Content.Shared._Mono.CorticalBorer; // Mono
 
 namespace Content.Shared._Shitmed.Medical.Surgery;
 
@@ -47,6 +50,7 @@ public abstract partial class SharedSurgerySystem
 
         SubSurgery<SurgeryTendWoundsEffectComponent>(OnTendWoundsStep, OnTendWoundsCheck);
         SubSurgery<SurgeryStepCavityEffectComponent>(OnCavityStep, OnCavityCheck);
+        SubSurgery<SurgeryStepRemoveCorticalBorerComponent>(OnCorticalBorerRemovalStep, OnCorticalBorerRemovalCheck); // Mono
         SubSurgery<SurgeryAddPartStepComponent>(OnAddPartStep, OnAddPartCheck);
         SubSurgery<SurgeryAffixPartStepComponent>(OnAffixPartStep, OnAffixPartCheck);
         SubSurgery<SurgeryRemovePartStepComponent>(OnRemovePartStep, OnRemovePartCheck);
@@ -166,7 +170,7 @@ public abstract partial class SharedSurgerySystem
         }
 
 
-        //if (!HasComp<ForcedSleepingComponent>(args.Body))
+        //if (!HasComp<ForcedSleepingStatusEffectComponent>(args.Body))
         //    //RaiseLocalEvent(args.Body, new MoodEffectEvent("SurgeryPain"));
         // No mood on Goob :(
         if (!_inventory.TryGetSlotEntity(args.User, "gloves", out var _)
@@ -174,7 +178,7 @@ public abstract partial class SharedSurgerySystem
         {
             if (!HasComp<SanitizedComponent>(args.User))
             {
-                var sepsis = new DamageSpecifier(_prototypes.Index<DamageTypePrototype>("Poison"), 5);
+                var sepsis = new DamageSpecifier(_prototypes.Index(new ProtoId<DamageTypePrototype>("Poison")), 5);
                 var ev = new SurgeryStepDamageEvent(args.User, args.Body, args.Part, args.Surgery, sepsis, 0.5f);
                 RaiseLocalEvent(args.Body, ref ev);
             }
@@ -287,7 +291,7 @@ public abstract partial class SharedSurgerySystem
                 if (!containerSlot.ContainedEntity.HasValue)
                     continue;
 
-                if (_tagSystem.HasTag(containerSlot.ContainedEntity.Value, "PermissibleForSurgery")) // DeltaV: allow some clothing items to be operated through
+                if (_tagSystem.HasTag(containerSlot.ContainedEntity.Value, new ProtoId<Tag.TagPrototype>("PermissibleForSurgery"))) // DeltaV: allow some clothing items to be operated through
                     continue;
 
                 args.Invalid = StepInvalidReason.Armor;
@@ -322,14 +326,6 @@ public abstract partial class SharedSurgerySystem
         }
     }
 
-    private EntProtoId? GetProtoId(EntityUid entityUid)
-    {
-        if (!TryComp<MetaDataComponent>(entityUid, out var metaData))
-            return null;
-
-        return metaData.EntityPrototype?.ID;
-    }
-
     // I wonder if theres not a function that can do this already.
     private bool HasDamageGroup(EntityUid entity, string[] group, out DamageableComponent? damageable)
     {
@@ -348,16 +344,17 @@ public abstract partial class SharedSurgerySystem
     {
         var group = ent.Comp.MainGroup == "Brute" ? BruteDamageTypes : BurnDamageTypes;
 
-        if (!HasDamageGroup(args.Body, group, out var damageable)
-            && !HasDamageGroup(args.Part, group, out var _)
+        if (!HasDamageGroup(args.Part, group, out var damageable) // DeltaV - Surgery Healing Depends on Limbs.
+            && !HasDamageGroup(args.Body, group, out var _)
             || damageable == null) // This shouldnt be possible but the compiler doesn't shut up.
             return;
 
 
         // Right now the bonus is based off the body's total damage, maybe we could make it based off each part in the future.
+        // We did make it based of each part, the future is here - DeltaV
         var bonus = ent.Comp.HealMultiplier * damageable.DamagePerGroup[ent.Comp.MainGroup];
         if (_mobState.IsDead(args.Body))
-            bonus *= 0.2;
+            bonus *= 0.1; // DeltaV - Surgery Healing Depends on Limbs.
 
         var adjustedDamage = new DamageSpecifier(ent.Comp.Damage);
 
@@ -372,8 +369,7 @@ public abstract partial class SharedSurgerySystem
     {
         var group = ent.Comp.MainGroup == "Brute" ? BruteDamageTypes : BurnDamageTypes;
 
-        if (HasDamageGroup(args.Body, group, out var _)
-            || HasDamageGroup(args.Part, group, out var _))
+        if (HasDamageGroup(args.Part, group, out var _)) // DeltaV - Surgery Healing Depends on Limbs.
             args.Cancelled = true;
     }
 
@@ -426,6 +422,21 @@ public abstract partial class SharedSurgerySystem
             && itemComp.Slots[partComp.ContainerName].HasItem)
             args.Cancelled = true;
     }
+
+    // Begin Mono Changes - borer
+    private void OnCorticalBorerRemovalStep(Entity<SurgeryStepRemoveCorticalBorerComponent> ent, ref SurgeryStepEvent args)
+    {
+        if (TryComp<CorticalBorerInfestedComponent>(args.Body, out var infested) &&
+            infested.InfestationContainer.ContainedEntities.Count != 0)
+            _corticalBorer.TryEjectBorer(infested.Borer);
+    }
+
+    private void OnCorticalBorerRemovalCheck(Entity<SurgeryStepRemoveCorticalBorerComponent> ent, ref SurgeryStepCompleteCheckEvent args)
+    {
+        if (HasComp<CorticalBorerInfestedComponent>(args.Body))
+            args.Cancelled = true;
+    }
+    // End Mono Changes - borer
 
     private void OnAddPartStep(Entity<SurgeryAddPartStepComponent> ent, ref SurgeryStepEvent args)
     {
@@ -769,11 +780,10 @@ public abstract partial class SharedSurgerySystem
         var doAfter = new DoAfterArgs(EntityManager, user, TimeSpan.FromSeconds(duration), ev, body, part)
         {
             BreakOnMove = true,
-            //BreakOnTargetMove = true, I fucking hate wizden dude.
             CancelDuplicate = true,
             DuplicateCondition = DuplicateConditions.SameEvent,
             NeedHand = true,
-            BreakOnHandChange = true,
+            BreakOnHandChange = false,
         };
 
         if (!_doAfter.TryStartDoAfter(doAfter))

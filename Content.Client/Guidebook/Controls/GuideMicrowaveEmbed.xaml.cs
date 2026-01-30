@@ -20,13 +20,15 @@ namespace Content.Client.Guidebook.Controls;
 /// Control for embedding a microwave recipe into a guidebook.
 /// </summary>
 [UsedImplicitly, GenerateTypedNameReferences]
-public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, ISearchableControl
+public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, ISearchableControl, IPrototypeRepresentationControl
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     private readonly SpriteSystem _sprite = default!; // Frontier
 
-    private ISawmill _sawmill = default!;
+    private readonly ISawmill _sawmill = default!;
+
+    public IPrototype? RepresentedPrototype { get; private set; }
 
     public GuideMicrowaveEmbed()
     {
@@ -34,7 +36,7 @@ public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, 
         IoCManager.InjectDependencies(this);
         MouseFilter = MouseFilterMode.Stop;
 
-        _sawmill = _logManager.GetSawmill("guidemicrowaveembed");
+        _sawmill = _logManager.GetSawmill("guidebook.microwave");
         _sprite = IoCManager.Resolve<IEntitySystemManager>().GetEntitySystem<SpriteSystem>(); // Frontier
     }
 
@@ -83,6 +85,8 @@ public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, 
     {
         var entity = _prototype.Index<EntityPrototype>(recipe.Result);
 
+        RepresentedPrototype = entity;
+
         IconContainer.AddChild(new GuideEntityEmbed(recipe.Result, false, false));
         ResultName.SetMarkup(entity.Name);
         ResultDescription.SetMarkup(entity.Description);
@@ -104,6 +108,7 @@ public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, 
 
             var solidNameLabel = new RichTextLabel();
             solidNameLabel.SetMessage(solidNameMsg);
+            solidNameLabel.LinkedPrototype = ingredient;
 
             IngredientsGrid.AddChild(solidNameLabel);
 
@@ -135,6 +140,7 @@ public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, 
             var liquidColorLabel = new RichTextLabel();
             liquidColorLabel.SetMessage(liquidColorMsg);
             liquidColorLabel.HorizontalAlignment = Control.HAlignment.Center;
+            liquidColorLabel.LinkedPrototype = reagent;
 
             IngredientsGrid.AddChild(liquidColorLabel);
 
@@ -200,10 +206,17 @@ public sealed partial class GuideMicrowaveEmbed : PanelContainer, IDocumentTag, 
             processingTypes.Add(Loc.GetString("guidebook-food-processing-type-medical-assembler"));
         }
         var processingTypeString = string.Join('/', processingTypes);
-        var msg = new FormattedMessage();
-        msg.AddMarkupOrThrow(Loc.GetString("guidebook-food-processing-cooking", ("processingTypes", processingTypeString), ("time", recipe.CookTime)));
-        msg.Pop();
         // End Frontier: multiple processing methods per recipe
+
+        var msg = new FormattedMessage();
+
+        // DeltaV - Deep fryer formatting
+        var locId = recipe.DeepFried
+            ? "guideboook-microwave-fry-time"
+            : "guidebook-microwave-cook-time-deltav";
+        msg.AddMarkupOrThrow(Loc.GetString("guidebook-food-processing-cooking", ("processingTypes", processingTypeString), ("time", recipe.CookTime)));
+        // End DV
+        msg.Pop();
 
         CookTimeLabel.SetMessage(msg);
     }

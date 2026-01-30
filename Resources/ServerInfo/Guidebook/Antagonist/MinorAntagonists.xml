@@ -43,7 +43,7 @@
   - You can conjure a cloud of [color=#77b58e]ammonia[/color] using [color=purple][italic]Rat King's Domain[/italic][/color]. This purple gas is mildly poisonous to humans but heals rats.
   - [color=#9daa98][italic]Rummage[/italic][/color] through a disposal unit by using the context menu. Use this to find [bold]scraps of food[/bold] to grow your army.
   - Besides your abilities, [bold]you are stronger than most other animals.[/bold] You and your servants are capable of speech and you're both small enough to fit under airlocks and tables.
-  - [bold]Your underlings are still very fragile![/bold] Beware of spacings, explosions and the buisness end of a melee weapon.
+  - [bold]Your underlings are still very fragile![/bold] Beware of spacings, explosions and the business end of a melee weapon.
 
   # Space Dragon
 
@@ -61,7 +61,7 @@
   - Your [color=orange][italic]Dragon's Breath[/italic][/color] is a [bold]flaming projectile[/bold] which travels a straight flight path, exploding multiple times and igniting things along the way. Try not to hit your carps with this!
   - You have the ability to [color=#4b7fcc][italic]Summon a Carp Rift[/italic][/color]. Rifts periodically spawn [bold]space carp[/bold] and charge up energy over a period of 5 minutes, [bold]which is when it's vulnerable.[/bold] After 5 minutes, it becomes invulnerable and will continue summoning carp as long as the dragon lives.
   - You'll suffer a [bold]temporary debilitating feedback effect[/bold] if one of your rifts are destroyed before it's done charging.
-  - If a period of <!-- DeltaV - five to ten -->ten minutes passes since your spawn or since the last time a rift was charging, [bold]you'll <!-- DeltaV - dissappear to die -->die.[/bold]
+  <!-- DeltaV - changed five to ten minutes, and changed dissapear to die -->- If a period of ten minutes passes since your spawn or since the last time a rift was charging, [bold]you'll die.[/bold]
   - Dragons who have the maximum of 3 fully charged rifts will [bold]never disappear[/bold], but they are still mortal.
 
   # Slimes and Spiders
@@ -74,4 +74,28 @@
   Slimes and spiders have no remarkable features, but will [color=cyan]infest the station[/color] from time to time regardless. Both will give chase and attack anything they see.
   - Slimes may [bold]deal extra cellular or poison damage[/bold], based upon their color. Water hurts them just as it would hurt a slime person.
   - Spiders have a venomous bite and can [bold]create webs[/bold] that are hard to move though. Webs are easily destroyed with a blade. They can also pry open doors, windoors, and airlocks.
+
+  
+  <!-- DeltaV - start cortical borer changes--># Cortical Borer
+
+  <Box>
+    <GuideEntityEmbed Entity="MobCorticalBorer"/>
+  </Box>
+  Cortical Borers are a worm-like parasitic species that inhabit the sector. They burrow into one's brain and feed off the body. It's said they can speak to their host, often to try to persuade them to do certain things for unknown reasons.
+  - As a Borer, you can view the health of your host, and inject them with harmful or helpful chemicals. When in a host, you regain chemicals over time, to a maximum of 250.
+  - You can additionally [color=yellow]control[/color] your host for up to 40 seconds, during which time you can [color=yellow]lay an egg[/color] if you have at least 200 chemicals stored. Said egg can hatch into a new borer once it's ready...
+  - A borer's abilities will temporarily stop working if the host ingests sugar. The borer can be removed from a host via surgery.
+ <!-- DeltaV - end cortical borer changes-->
+ <!-- DeltaV - start Skia changes--># Skia
+
+  <Box>
+    <GuideEntityEmbed Entity="MobSkia"/>
+  </Box>
+  Skias are a Shade of the [color=#8f63e6]Noosphere[/color]. They use darkness and shadows to [color=red][italic]prey[/italic][/color] upon unsuspecting crewmembers of the station.
+  - As a Skia, [bold]you will take damage when exposed to light[/bold]. You can use your abilities to help work around this vulnerability.
+  - "Night vision" will allow you to see in dark areas. To check if you are near light or not there is an indicator that turns yellow when you are in range of light.
+  - "Shatter Lights" Emits a blood-curdling scream that shatters all lights in the area. 
+  - "Technokinetic Pulse" Unleashes a burst of Technokinetic energy, disabling and destroying nearby electronics.
+  - Skias have [bold]very sharp claws[/bold] that will additionally deal [bold]shadow damage[/bold] that requires Holy water to heal.
+<!-- DeltaV - end Skia changes-->
 </Document>

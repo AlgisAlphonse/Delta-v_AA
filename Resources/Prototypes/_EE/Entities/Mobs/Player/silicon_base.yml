@@ -15,7 +15,7 @@
         - reagents: [Water, SpaceCleaner]
           methods: [Touch]
           effects:
-            - !type:WashCreamPieReaction
+            - !type:WashCreamPie
     - type: DamageOnHighSpeedImpact
       damage:
         types:
@@ -156,7 +156,10 @@
       bounds: -0.5,-0.5,0.5,0.5
     #- type: Bloodstream
     #  damageBleedModifiers: BloodlossIPC
-    #  bloodReagent: Oil
+    #  bloodReagents:
+    #    reagents:
+    #    - ReagentId: Oil
+    #      Quantity: 1
     #  bleedReductionAmount: 0
     #  bloodMaxVolume: 100
     #  chemicalMaxVolume: 0
@@ -196,7 +199,7 @@
         - CanPilot
         - FootstepSound
         - DoorBumpOpener
-        - SiliconEmotes # DeltaV
+        - SiliconOrIPCEmotes # DeltaV
     - type: Hands
     - type: Inventory
       templateId: human
@@ -317,7 +320,9 @@
     - type: Carriable
     - type: Targeting
     - type: SurgeryTarget
-    - type: LayingDown
+    - type: ParcelWrapOverride
+      parcelPrototype: WrappedParcelHumanoid
+      wrapDelay: 5
     - type: Fiber # DeltaV - IPCs leave fibers instead of prints
       fiberMaterial: fibers-steel
     - type: Anesthesia # DeltaV - IPCs can be operated on without anesthesia
@@ -331,3 +336,5 @@
           Electronic: -0.5
     - type: SiliconEmp # DeltaV - EMP damage
     - type: CosmicCenserTarget # DeltaV - Cosmic Cult
+    - type: GrappleTarget # DeltaV - Allow targets to be grappled
+    - type: CanDoCPR # DeltaV - Addition of CPR

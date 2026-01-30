@@ -35,7 +35,7 @@ public partial class RadiationSystem
         stopwatch.Start();
 
         _sources.Clear();
-        _sources.EnsureCapacity(EntityManager.Count<RadiationSourceComponent>());
+        _sources.EnsureCapacity(Count<RadiationSourceComponent>());
 
         var sources = EntityQueryEnumerator<RadiationSourceComponent, TransformComponent>();
         var destinations = EntityQueryEnumerator<RadiationReceiverComponent, TransformComponent>();
@@ -79,7 +79,8 @@ public partial class RadiationSystem
 
                 // add rads to total rad exposure
                 if (ray.ReachedDestination)
-                    rads += ray.Rads;
+                    // DeltaV - apply a modifier if you are irradiating yourself
+                    rads += ray.Rads * (source.Entity.Owner == destUid ? (source.Entity.Comp1.SelfReceiverMultiplier * dest.SelfSourceMultiplier) : 1f);
 
                 if (!debug)
                     continue;

@@ -14,7 +14,7 @@
   name: cotton bun recipe
   result: FoodCottonBun
   time: 5
-  group: Breads
+  group: Moth
   solids:
     FoodDoughCottonSlice: 1
   recipeType:
@@ -475,7 +475,7 @@
   name: banana bread recipe
   result: FoodBreadBanana
   time: 15
-  group: LoafCakes
+  group: Breads
   solids:
     FoodDough: 1
     FoodBanana: 1
@@ -1573,89 +1573,79 @@
   recipeType:
   - Oven
 
-- type: microwaveMealRecipe
-  id: RecipeFries
-  name: space fries recipe
-  result: FoodMealFries
-  time: 15
-  group: Savory
-  reagents:
-    TableSalt: 5
-  solids:
-    FoodPotato: 1
-  recipeType:
-  - Oven
+# Begin DV removals for deep fryer
+#- type: microwaveMealRecipe
+#  id: RecipeFries
+#  name: space fries recipe
+#  result: FoodMealFries
+#  time: 15
+#  group: Savory
+#  reagents:
+#    TableSalt: 5
+#  solids:
+#    FoodPotato: 1
 
-- type: microwaveMealRecipe
-  id: RecipeCheesyFries
-  name: cheesy fries recipe
-  result: FoodMealFriesCheesy
-  time: 15
-  group: Savory
-  reagents:
-    TableSalt: 5
-  solids:
-    FoodPotato: 1
-    FoodCheeseSlice: 1
-  recipeType:
-  - Oven
+#- type: microwaveMealRecipe
+#  id: RecipeCheesyFries
+#  name: cheesy fries recipe
+#  result: FoodMealFriesCheesy
+#  time: 15
+#  group: Savory
+#  reagents:
+#    TableSalt: 5
+#  solids:
+#    FoodPotato: 1
+#    FoodCheeseSlice: 1
 
-- type: microwaveMealRecipe
-  id: RecipeCarrotFries
-  name: carrot fries recipe
-  result: FoodMealFriesCarrot
-  time: 15
-  group: Savory
-  reagents:
-    TableSalt: 5
-  solids:
-    FoodCarrot: 1
-  recipeType:
-  - Oven
+#- type: microwaveMealRecipe
+#  id: RecipeCarrotFries
+#  name: carrot fries recipe
+#  result: FoodMealFriesCarrot
+#  time: 15
+#  group: Savory
+#  reagents:
+#    TableSalt: 5
+#  solids:
+#    FoodCarrot: 1
 
-- type: microwaveMealRecipe
-  id: RecipeNachos
-  name: nachos recipe
-  result: FoodMealNachos
-  time: 10
-  group: Savory
-  reagents:
-    TableSalt: 1
-  solids:
-    FoodDoughTortillaFlat: 1
-    FoodPlateSmall: 1
-  recipeType:
-  - Oven
+#- type: microwaveMealRecipe
+#  id: RecipeNachos
+#  name: nachos recipe
+#  result: FoodMealNachos
+#  time: 10
+#  group: Savory
+#  reagents:
+#    TableSalt: 1
+#  solids:
+#    FoodDoughTortillaFlat: 1
+#    FoodPlateSmall: 1
 
-- type: microwaveMealRecipe
-  id: RecipeNachosCheesy
-  name: cheesy nachos recipe
-  result: FoodMealNachosCheesy
-  time: 10
-  group: Savory
-  reagents:
-    TableSalt: 1
-  solids:
-    FoodCheeseSlice: 1
-    FoodDoughTortillaFlat: 1
-    FoodPlateSmall: 1
-  recipeType:
-  - Oven
+#- type: microwaveMealRecipe
+#  id: RecipeNachosCheesy
+#  name: cheesy nachos recipe
+#  result: FoodMealNachosCheesy
+#  time: 10
+#  group: Savory
+#  reagents:
+#    TableSalt: 1
+#  solids:
+#    FoodCheeseSlice: 1
+#    FoodDoughTortillaFlat: 1
+#    FoodPlateSmall: 1
 
-- type: microwaveMealRecipe
-  id: RecipeNachosCuban
-  name: cuban nachos recipe
-  result: FoodMealNachosCuban
-  time: 10
-  group: Savory
-  reagents:
-    Ketchup: 5
-  solids:
-    FoodChiliPepper: 1
-    FoodDoughTortillaFlat: 1
-    FoodPlateSmall: 1
-  recipeType:
-  - Oven
+#- type: microwaveMealRecipe
+#  id: RecipeNachosCuban
+#  name: cuban nachos recipe
+#  result: FoodMealNachosCuban
+#  time: 10
+#  group: Savory
+#  reagents:
+#    Ketchup: 5
+#  solids:
+#    FoodChiliPepper: 1
+#    FoodDoughTortillaFlat: 1
+#    FoodPlateSmall: 1
+# End DV Removals
 
 - type: microwaveMealRecipe
   id: RecipePopcorn
@@ -1993,6 +1983,20 @@
     FoodCakePlain: 1
     FoodSnackRaisins: 1
     OrganAnimalHeart: 1
+  recipeType:
+  - Oven
+
+- type: microwaveMealRecipe
+  id: RecipeBerryDelight
+  name: berry delight recipe
+  result: FoodCakeBerryDelight
+  time: 5
+  group: Cake
+  solids:
+    FoodCakeBlueberry: 1
+    FoodBerries: 2
+  reagents:
+    Milk: 10
   recipeType:
   - Oven
 
@@ -2797,6 +2801,7 @@
   name: grilled cheese sandwich recipe
   result: FoodBakedGrilledCheeseSandwich
   time: 10
+  group: Savory
   solids:
     FoodBreadPlainSlice: 2
     FoodCheeseSlice: 1
@@ -2809,6 +2814,7 @@
   name: cotton grilled cheese sandwich recipe
   result: FoodBakedGrilledCheeseSandwichCotton
   time: 10
+  group: Moth
   solids:
     FoodBreadCottonSlice: 2
     FoodCheeseSlice: 1
@@ -2846,3 +2852,31 @@
     FoodSoybeans: 2 # replace these with green beans once those become a thing
   recipeType:
     - Microwave
+
+- type: microwaveMealRecipe
+  id: RecipeMoproach # TODO: Move this to be an actual surgery instead, once surgery gets implemented.
+  name: moproach recipe
+  result: MobMoproach
+  time: 30
+  group: Other
+  reagents:
+    SpaceCleaner: 15
+  solids:
+    MobMothroach: 1
+    OrganAnimalHeart: 1
+    MoproachShoes: 1
+  recipeType:
+  - Microwave
+
+- type: microwaveMealRecipe
+  id: RecipeCottonCake
+  name: cotton cake recipe
+  result: FoodCakeCotton
+  time: 5
+  group: Moth
+  reagents:
+    Fiber: 10
+  solids:
+    FoodCakePlain: 1
+  recipeType:
+  - Oven

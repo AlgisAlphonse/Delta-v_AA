@@ -47,3 +47,8 @@
   parent: BaseCircuitboardRecipe
   id: CheapMicrowaveMachineCircuitBoard
   result: CheapMicrowaveMachineCircuitBoard
+
+- type: latheRecipe
+  parent: BaseGoldCircuitboardRecipe
+  id: ArtifactDisplayCaseMachineCircuitBoard
+  result: ArtifactDisplayCaseMachineCircuitBoard

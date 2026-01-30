@@ -15,7 +15,6 @@
         Base: mite
       Dead:
         Base: mite_dead
-    baseDecayRate: 0.25
   - type: SolutionContainerManager
     solutions:
       food:
@@ -42,7 +41,6 @@
   components:
   # appearance
   - type: Sprite
-    drawDepth: Ghosts
     sprite: Nyanotrasen/Mobs/Monster/glimmer_wisp.rsi
     layers:
     - state: willowisp
@@ -140,7 +138,7 @@
     selectedMode: SemiAuto
     availableModes:
     - SemiAuto
-  - type: HitscanBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: WispLash
     fireCost: 1
     # TODO: implement upstream or make it use a proper thing, maybe copy dragon
@@ -149,7 +147,6 @@
     maxCharge: 1000
     startingCharge: 1000
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 100
   # AI
   - type: HTN

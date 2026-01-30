@@ -1,0 +1,12 @@
+# Engineering Void Suit
+- type: entity
+  id: LockerEngineerFilledVoidsuit
+  suffix: Filled, Void suit
+  parent: LockerEngineerFilled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ClothingOuterVoidsuitEngineering
+        - id: OxygenTankFilled

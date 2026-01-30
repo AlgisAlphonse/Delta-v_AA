@@ -8,6 +8,7 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Movement.Components;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 // Shitmed Change Start
@@ -24,7 +25,9 @@ namespace Content.Shared.Body.Systems;
 public partial class SharedBodySystem
 {
     [Dependency] private readonly RandomHelperSystem _randomHelper = default!; // Shitmed Change
-    [Dependency] private readonly InventorySystem _inventorySystem = default!; // Shitmed Change
+    // [Dependency] private readonly InventorySystem _inventorySystem = default!; // Shitmed Change - Declared in SharedBodySystem.cs
+
+    private static readonly ProtoId<DamageTypePrototype> BloodlossDamageType = "Bloodloss";
 
     private void InitializeParts()
     {
@@ -133,7 +136,7 @@ public partial class SharedBodySystem
             && TryGetPartSlotContainerName(partEnt.Comp.PartType, out var containerNames))
         {
             foreach (var containerName in containerNames)
-                _inventorySystem.DropSlotContents(partEnt.Comp.Body.Value, containerName, inventory);
+                _inventory.DropSlotContents(partEnt.Comp.Body.Value, containerName, inventory);
         }
 
     }
@@ -203,7 +206,7 @@ public partial class SharedBodySystem
         // I don't know if this can cause issues, since any part that's being detached HAS to have a Body.
         // though I really just want the compiler to shut the fuck up.
         var body = partEnt.Comp.Body.GetValueOrDefault();
-        if (TryComp(partEnt, out TransformComponent? transform) && _gameTiming.IsFirstTimePredicted)
+        if (TryComp(partEnt, out TransformComponent? transform) && _timing.IsFirstTimePredicted)
         {
             var enableEvent = new BodyPartEnableChangedEvent(false);
             RaiseLocalEvent(partEnt, ref enableEvent);
@@ -339,7 +342,7 @@ public partial class SharedBodySystem
         AddLeg(partEnt, bodyEnt);
     }
 
-    protected virtual void RemovePart(
+    public virtual void RemovePart( // DeltaV - Made public
         Entity<BodyComponent?> bodyEnt,
         Entity<BodyPartComponent> partEnt,
         string slotId)
@@ -391,6 +394,18 @@ public partial class SharedBodySystem
     // Shitmed Change: made virtual, bleeding damage is done on server
     protected virtual void PartRemoveDamage(Entity<BodyComponent?> bodyEnt, Entity<BodyPartComponent> partEnt)
     {
+        if (!Resolve(bodyEnt, ref bodyEnt.Comp, logMissing: false))
+            return;
+
+        if (!_timing.ApplyingState
+            && partEnt.Comp.IsVital
+            && !GetBodyChildrenOfType(bodyEnt, partEnt.Comp.PartType, bodyEnt.Comp).Any()
+        )
+        {
+            // TODO BODY SYSTEM KILL : remove this when wounding and required parts are implemented properly
+            var damage = new DamageSpecifier(Prototypes.Index(BloodlossDamageType), 300);
+            Damageable.ChangeDamage(bodyEnt.Owner, damage);
+        }
     }
 
     /// <summary>

@@ -3,9 +3,19 @@
   id: LOLuckyBillStealObjective
   components:
   - type: NotJobRequirement
-    job: Quartermaster
+    jobs: [ Quartermaster ]
   - type: StealCondition
     stealGroup: SpaceCashLuckyBill
+    # owner: job-name-qm
+
+- type: entity # Logistics Officer steal objective.
+  parent: BaseTraitorStealObjective
+  id: HardsuitRhinoStealObjective
+  components:
+  - type: NotJobRequirement
+    jobs: [ Quartermaster ]
+  - type: StealCondition
+    stealGroup: HardsuitRhino
     # owner: job-name-qm
 
 - type: entity # Head of Personnel steal objective.
@@ -13,7 +23,7 @@
   id: HoPBookIanDossierStealObjective
   components:
   - type: NotJobRequirement
-    job: HeadOfPersonnel
+    jobs: [ HeadOfPersonnel ]
   - type: StealCondition
     stealGroup: BookIanDossier
     # owner: job-name-hop
@@ -25,9 +35,9 @@
   - type: Objective
     difficulty: 3 # HoS will mostly be using the gun to stop you from stealing it
   - type: NotJobRequirement
-    job: HeadOfSecurity
+    jobs: [ HeadOfSecurity ]
   - type: StealCondition
-    stealGroup: WeaponEnergyGunMultiphase
+    stealGroup: HoSSidearm
     owner: job-name-hos
 
 - type: entity # Clerk steal objective.
@@ -35,7 +45,7 @@
   id: ClerkNotaryStealObjective
   components:
   - type: NotJobRequirement
-    job: Clerk
+    jobs: [ Clerk ]
   - type: StealCondition
     stealGroup: RubberStampNotary
     owner: job-name-clerk
@@ -46,7 +56,7 @@
   id: RdClipboardStealObjective
   components:
   - type: NotJobRequirement
-    job: ResearchDirector
+    jobs: [ ResearchDirector ]
   - type: StealCondition
     stealGroup: BoxFolderRdClipboard
     owner: job-name-rd
@@ -56,7 +66,7 @@
   id: BibleMystagogueStealObjective
   components:
   - type: NotJobRequirement
-    job: ResearchDirector
+    jobs: [ ResearchDirector ]
   - type: StealCondition
     stealGroup: BibleMystagogue
     owner: job-name-rd
@@ -90,7 +100,13 @@
   - type: TargetObjective
     title: objective-condition-teach-person-title
   - type: PickRandomPerson
-    onlyChoosableJobs: true
+    filters:
+    # Can't have multiple objectives to kill the same person.
+    - !type:TargetObjectiveMindFilter
+      blacklist:
+        components:
+        - KillPersonCondition
+        - TargetObjectiveImmune
 
 # Kill fellow traitor objective
 - type: entity

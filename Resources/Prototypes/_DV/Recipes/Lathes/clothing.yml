@@ -449,11 +449,34 @@
     Plastic: 400
     Plasma: 600
 
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
+  id: ClothingOuterVoidsuitEngineering
+  result: ClothingOuterVoidsuitEngineering
+  materials:
+    Plasteel: 500
+    Durathread: 500
+    Steel: 400
+    Glass: 500
+    Plastic: 400
+    Plasma: 600
+    Gold: 400
+
 ## Security
 - type: latheRecipe
   parent: BaseHardsuitArmoredRecipe
   id: ClothingOuterHardsuitCombatOfficer
   result: ClothingOuterHardsuitCombatOfficer
+
+- type: latheRecipe
+  parent: BaseHardsuitArmoredRecipe
+  id: ClothingOuterHardsuitCombatK9
+  result: ClothingOuterHardsuitCombatK9
+
+- type: latheRecipe
+  parent: BaseHardsuitArmoredRecipe
+  id: ClothingOuterHardsuitCombatRiotK9
+  result: ClothingOuterHardsuitCombatRiotK9
 
 ## Logistics
 - type: latheRecipe
@@ -529,3 +552,29 @@
   parent: BaseSoftsuitHelmetRecipe
   id: ClothingHeadHelmetEVALarge
   result: ClothingHeadHelmetEVALarge
+
+# Longcoats
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingLongcoatQM
+  result: ClothingLongcoatQM
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingLongcoatRD
+  result: ClothingLongcoatRD
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingLongcoatCMO
+  result: ClothingLongcoatCMO
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingLongcoatCE
+  result: ClothingLongcoatCE
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingLongcoatHoP
+  result: ClothingLongcoatHoP
